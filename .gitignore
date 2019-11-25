@@ -1,0 +1,11 @@
+.vscode
+.idea
+.coverage
+.tox/
+__pycache__/
+*.egg-info/
+*.pyc
+build/
+env/
+dist/
+_trial_temp/
