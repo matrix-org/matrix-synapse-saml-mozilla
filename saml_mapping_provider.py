@@ -76,3 +76,11 @@ class SamlMappingProvider(object):
         # Remove any trailing dots
         username = self._string_end_dot_pattern.sub("", username)
         return username
+
+    @staticmethod
+    def parse_config(config):
+        """Parse the dict provided in the homeserver config.
+
+        We currently do not use any config vars
+        """
+        pass
