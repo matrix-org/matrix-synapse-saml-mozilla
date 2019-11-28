@@ -44,7 +44,9 @@ setup(
     version=exec_file(("saml_mapping_provider.py",), "__version__"),
     py_modules=["matrix-synapse-saml-moz"],
     description="An Mozilla-flavoured SAML MXID mapper for Synapse",
-    install_requires=[],
+    install_requires=[
+        "saml2",
+    ],
     long_description=read_file(("README.md",)),
     classifiers=[
         'Development Status :: 4 - Beta',

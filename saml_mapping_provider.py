@@ -15,6 +15,7 @@
 
 import re
 import string
+import saml2.response
 
 __version__ = "0.0.1"
 
@@ -30,20 +31,29 @@ class SamlMappingProvider(object):
         self._multiple_to_single_dot_pattern = re.compile(r"\.{2,}")
 
         self._string_end_dot_pattern = re.compile(r"\.$")
+        self._mxid_source_attribute = None
 
-    def mxid_source_to_mxid_localpart(self, mxid_source: str, failures: int = 0) -> str:
-        """Maps some text from a SAML response to the localpart of a new mxid
+    def saml_response_to_user_attributes(
+            self,
+            saml_response: saml2.response.AuthnResponse,
+            failures: int = 0,
+    ) -> dict:
+        """Maps some text from a SAML response to attributes of a new user
 
         Args:
-            mxid_source (str): The input text from a SAML auth response
+            saml_response: A SAML auth response object
 
-            failures (int): How many times a call to this function with this
-                mxid_source has resulted in a failure (possibly due to the localpart
-                already existing)
+            failures: How many times a call to this function with this
+                saml_response has resulted in a failure
 
         Returns:
-            str: The localpart of a new mxid
+            dict: A dict containing new user attributes. Possible keys:
+                * mxid_localpart (str): Required. The localpart of the user's mxid
+                * displayname (str): The displayname of the user
         """
+        # The calling function will catch the KeyError if this fails
+        mxid_source = saml_response.ava[self._mxid_source_attribute][0]
+
         # Truncate the username to the first found '@' character to prevent complete
         # emails being leaked
         pos = mxid_source.find("@")
@@ -53,7 +63,15 @@ class SamlMappingProvider(object):
 
         # Append suffix integer if last call to this function failed to produce
         # a usable mxid
-        return mxid_localpart + (str(failures) if failures else "")
+        localpart = mxid_localpart + (str(failures) if failures else "")
+
+        # Retrieve the display name from the saml response
+        displayname = saml_response.ava.get("displayName", [None])[0]
+
+        return {
+            "mxid_localpart": localpart,
+            "displayname": displayname,
+        }
 
     def _dotreplace_for_mxid(self, username: str) -> str:
         """Replace non-allowed mxid characters with a '.'
@@ -77,10 +95,7 @@ class SamlMappingProvider(object):
         username = self._string_end_dot_pattern.sub("", username)
         return username
 
-    @staticmethod
-    def parse_config(config):
-        """Parse the dict provided in the homeserver config.
+    def parse_config(self, config):
+        """Parse the dict provided by the homeserver config"""
+        self._mxid_source_attribute = config.get("mxid_source_attribute", "uid")
 
-        We currently do not use any config vars
-        """
-        pass

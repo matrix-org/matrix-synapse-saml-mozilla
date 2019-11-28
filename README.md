@@ -13,18 +13,31 @@ pip install matrix-synapse-saml-moz
 
 ## Usage
 
-Example synapse config:
+### Config
+
+Configure the following in your Synapse config:
 
 ```yaml
    saml2_config:
-     mapping_provider: "saml_mapping_provider.SamlMappingProvider"
+     user_mapping_provider: "saml_mapping_provider.SamlMappingProvider"
 ```
+
+### Configuration Options
+
+Synapse allows SAML mapping providers to specify custom configuration through the
+`saml2_config.user_mapping_provider_config` option.
+
+The options supported by this provider are currently:
+
+* `mxid_source_attribute` - The SAML attribute (after mapping via the
+                            attribute maps) to use to derive the Matrix
+                            ID from. 'uid' by default.
 
 ## Development and Testing
 
 This repository uses `tox` to run linting and tests.
 
-### Linting code
+### Linting
 
 Code is linted with the `flake8` tool. Run `tox -e pep8` to check for linting
 errors in the codebase.
