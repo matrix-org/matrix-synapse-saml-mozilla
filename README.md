@@ -15,7 +15,7 @@ pip install matrix-synapse-saml-moz
 
 ### Config
 
-Configure the following in your Synapse config:
+Add the following in your Synapse config:
 
 ```yaml
    saml2_config:
