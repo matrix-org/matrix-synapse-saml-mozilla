@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from typing import Tuple
 import re
 import attr
 import string
@@ -118,7 +119,7 @@ class SamlMappingProvider(object):
         return SamlConfig(mxid_source_attribute)
 
     @staticmethod
-    def get_saml_attributes(config: SamlConfig) -> tuple[set:set]:
+    def get_saml_attributes(config: SamlConfig) -> Tuple[set, set]:
         """Returns the required and optional attributes of a SAML auth response object
 
         Args:
