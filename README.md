@@ -8,7 +8,7 @@ Matrix trial run.
 This plugin can be installed via [PyPi](https://pypi.org):
 
 ```
-pip install matrix-synapse-saml-moz
+pip install matrix-synapse-saml-mozilla
 ```
 
 ## Usage
@@ -19,13 +19,16 @@ Add the following in your Synapse config:
 
 ```yaml
    saml2_config:
-     user_mapping_provider: "saml_mapping_provider.SamlMappingProvider"
+     user_mapping_provider:
+       module: "saml_mapping_provider.MozillaSamlMappingProvider"
+       config:
+         mxid_source_attribute: "uid"
 ```
 
 ### Configuration Options
 
 Synapse allows SAML mapping providers to specify custom configuration through the
-`saml2_config.user_mapping_provider_config` option.
+`saml2_config.user_mapping_provider.config` option.
 
 The options supported by this provider are currently:
 

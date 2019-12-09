@@ -27,7 +27,7 @@ class SamlConfig(object):
     mxid_source_attribute = attr.ib()
 
 
-class SamlMappingProvider(object):
+class MozillaSamlMappingProvider(object):
     def __init__(self, parsed_config: SamlConfig):
         """A Mozilla-flavoured, Synapse user mapping provider
 
