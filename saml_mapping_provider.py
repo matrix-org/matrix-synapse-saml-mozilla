@@ -14,14 +14,20 @@
 # limitations under the License.
 
 import re
+import attr
 import string
 import saml2.response
 
 __version__ = "0.0.1"
 
 
+@attr.s
+class SamlConfig(object):
+    mxid_source_attribute = attr.ib()
+
+
 class SamlMappingProvider(object):
-    def __init__(self, parsed_config):
+    def __init__(self, parsed_config: SamlConfig):
         """A Mozilla-flavoured, Synapse user mapping provider
 
         Args:
@@ -101,33 +107,27 @@ class SamlMappingProvider(object):
         return username
 
     @staticmethod
-    def parse_config(config: dict):
+    def parse_config(config: dict) -> SamlConfig:
         """Parse the dict provided by the homeserver's config
         Args:
             config: A dictionary containing configuration options for this provider
         Returns:
-            _SamlConfig: A custom config object
+            SamlConfig: A custom config object
         """
-        pass
-
-        class _SamlConfig(object):
-            pass
-
-        saml_config = _SamlConfig()
-        saml_config.mxid_source_attribute = config["mxid_source_attribute"]
-        return saml_config
+        mxid_source_attribute = config.get("mxid_source_attribute", "uid")
+        return SamlConfig(mxid_source_attribute)
 
     @staticmethod
-    def get_required_saml_attributes(config: dict):
-        """Returns the required attributes of a SAML
+    def get_saml_attributes(config: SamlConfig) -> tuple[set:set]:
+        """Returns the required and optional attributes of a SAML auth response object
 
         Args:
-            config: A dictionary containing configuration options for this provider
+            config: A SamlConfig object containing configuration options for this provider
 
         Returns:
-            tuple[set,set]: The first set equates to the saml auth response attributes that
-                are required for the module to function, whereas the second set consists of
-                those attributes which can be used if available, but are not necessary
+            tuple[set,set]: The first set equates to the saml auth response
+                attributes that are required for the module to function, whereas the
+                second set consists of those attributes which can be used if
+                available, but are not necessary
         """
-        saml_config = SamlMappingProvider.parse_config(config)
-        return {"uid", saml_config.mxid_source_attribute}, {"displayName"}
+        return {"uid", config.mxid_source_attribute}, {"displayName"}
