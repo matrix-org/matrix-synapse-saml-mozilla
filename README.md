@@ -20,7 +20,7 @@ Add the following in your Synapse config:
 ```yaml
    saml2_config:
      user_mapping_provider:
-       module: "saml_mapping_provider_mozilla.SamlMappingProvider"
+       module: "matrix_synapse_saml_mozilla.SamlMappingProvider"
        config:
          mxid_source_attribute: "uid"
 ```
