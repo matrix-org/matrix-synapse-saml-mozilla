@@ -49,6 +49,7 @@ setup(
         "pysaml2>=4.5.0",
     ],
     long_description=read_file(("README.md",)),
+    long_description_content_type="text/markdown",
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: Apache Software License',
