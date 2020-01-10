@@ -12,11 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-from typing import Tuple
 import re
-import attr
 import string
+from typing import Tuple
+
+import attr
+
 import saml2.response
 
 __version__ = "0.0.1"
@@ -46,9 +47,7 @@ class SamlMappingProvider(object):
         self._string_end_dot_pattern = re.compile(r"\.$")
 
     def saml_response_to_user_attributes(
-            self,
-            saml_response: saml2.response.AuthnResponse,
-            failures: int = 0,
+        self, saml_response: saml2.response.AuthnResponse, failures: int = 0
     ) -> dict:
         """Maps some text from a SAML response to attributes of a new user
 
@@ -80,10 +79,7 @@ class SamlMappingProvider(object):
         # Retrieve the display name from the saml response
         displayname = saml_response.ava.get("displayName", [None])[0]
 
-        return {
-            "mxid_localpart": localpart,
-            "displayname": displayname,
-        }
+        return {"mxid_localpart": localpart, "displayname": displayname}
 
     def _dotreplace_for_mxid(self, username: str) -> str:
         """Replace non-allowed mxid characters with a '.'
