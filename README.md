@@ -25,6 +25,23 @@ Add the following in your Synapse config:
          mxid_source_attribute: "uid"
 ```
 
+Also, under the HTTP client `listener`, configure an `additional_resource` as per
+the below:
+
+```yaml
+listeners:
+  - port: <port>
+    type: http
+
+    resources:
+      - names: [client]
+
+    additional_resources:
+      "/_matrix/saml2/pick_username":
+        module: "matrix_synapse_saml_mozilla.PickUsernameHandler"
+        config: {}
+```
+
 ### Configuration Options
 
 Synapse allows SAML mapping providers to specify custom configuration through the

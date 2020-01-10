@@ -19,6 +19,7 @@ from typing import Tuple
 import attr
 
 import saml2.response
+from matrix_synapse_saml_mozilla.pick_username_handler import PickUsernameHandler
 
 __version__ = "0.0.1"
 
