@@ -1,7 +1,7 @@
-inputField = document.getElementById("field-username");
-inputForm = document.getElementById("form");
-submitButton = document.getElementById("submit");
-message = document.getElementById("message");
+let inputField = document.getElementById("field-username");
+let inputForm = document.getElementById("form");
+let submitButton = document.getElementById("submit");
+let message = document.getElementById("message");
 
 // Remove input field placeholder if the text field is not empty
 let switchClass = function(input) {
@@ -38,10 +38,28 @@ let onResponse = function(response, success) {
   submitButton.value = "Submit"
 };
 
+// We allow upper case characters here, but then lowercase before sending to the server
+let allowedUsernameCharacters = RegExp("[^a-zA-Z0-9\\.\\_\\=\\-\\/]");
+let usernameIsValid = function(username) {
+  return !allowedUsernameCharacters.test(username);
+}
+let allowedCharactersString = "" +
+"<code>a-z</code>, " +
+"<code>0-9</code>, " +
+"<code>.</code>, " +
+"<code>_</code>, " +
+"<code>-</code>, " +
+"<code>/</code>, " +
+"<code>=</code>";
+
 var dummyBool = false;
 let submitUsername = function(username) {
   if(username.length == 0) {
     onResponse("Please enter a username.", false);
+    return;
+  }
+  if(!usernameIsValid(username)) {
+    onResponse("Invalid username. Only the following characters are allowed: " + allowedCharactersString, false);
     return;
   }
   setTimeout(() => {
