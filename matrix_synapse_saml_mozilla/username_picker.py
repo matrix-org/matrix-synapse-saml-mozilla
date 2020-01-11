@@ -17,15 +17,15 @@ import logging
 import urllib.parse
 
 import pkg_resources
-from twisted.internet import defer
 from twisted.web.resource import Resource
 from twisted.web.server import NOT_DONE_YET, Request
 from twisted.web.static import File
 
 import synapse.module_api
+from synapse.module_api import run_in_background
+from synapse.module_api.errors import SynapseError
+
 from matrix_synapse_saml_mozilla._sessions import username_mapping_sessions
-from synapse.api.errors import SynapseError
-from synapse.http.server import wrap_async_request_handler
 
 """
 This file implements the "username picker" resource, which is mapped as an
@@ -75,11 +75,12 @@ HTML_ERROR_TEMPLATE = """<!DOCTYPE html>
 
 def _wrap_for_exceptions(f):
     async def wrapped(self, request):
-        try:
-            return await f(self, request)
-        except Exception:
-            logger.exception("Error handling request %s" % (request,))
-            _return_html_error(500, "Internal server error", request)
+        with request.processing():
+            try:
+                return await f(self, request)
+            except Exception:
+                logger.exception("Error handling request %s" % (request,))
+                _return_html_error(500, "Internal server error", request)
 
     return wrapped
 
@@ -90,11 +91,9 @@ class SubmitResource(Resource):
         self._module_api = module_api
 
     def render_POST(self, request: Request):
-        awaitable = self.async_render_POST(request)
-        defer.ensureDeferred(awaitable)
+        run_in_background(self.async_render_POST, request)
         return NOT_DONE_YET
 
-    @wrap_async_request_handler
     @_wrap_for_exceptions
     async def async_render_POST(self, request: Request):
         if b"session_id" not in request.args:
@@ -124,17 +123,15 @@ class SubmitResource(Resource):
                 localpart=localpart, displayname=session.displayname
             )
         except SynapseError as e:
-            if e.errcode != "M_USER_IN_USE":
-                raise
-            logger.warning("ID %s in use", localpart)
-            _return_html_error(400, "User ID in use", request)
+            logger.warning("Error during registration: %s", e)
+            _return_html_error(e.code, e.msg, request)
             return
 
         await self._module_api.record_user_external_id(
             "saml", session.remote_user_id, registered_user_id
         )
 
-        del username_mapping_sessions.pop[session_id]
+        del username_mapping_sessions[session_id]
 
         login_token = self._module_api.generate_short_term_login_token(
             registered_user_id

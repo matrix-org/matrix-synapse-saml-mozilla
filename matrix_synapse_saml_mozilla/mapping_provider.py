@@ -16,18 +16,18 @@ import logging
 import random
 import string
 import time
-
-import attr
 from typing import Tuple
 
+import attr
 import saml2.response
 
 import synapse.module_api
+from synapse.module_api.errors import RedirectException
+
 from matrix_synapse_saml_mozilla._sessions import (
     UsernameMappingSession,
     username_mapping_sessions,
 )
-from synapse.api.errors import RedirectException
 
 logger = logging.getLogger(__name__)
 

@@ -13,8 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from matrix_synapse_saml_mozilla.username_picker import pick_username_resource
-
 from matrix_synapse_saml_mozilla.mapping_provider import SamlMappingProvider
+from matrix_synapse_saml_mozilla.username_picker import pick_username_resource
 
 __version__ = "0.0.1"
