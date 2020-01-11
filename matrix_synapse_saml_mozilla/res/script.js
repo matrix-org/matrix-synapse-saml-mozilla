@@ -1,6 +1,35 @@
+let parseQs = function(qs) {
+    let obj = {};
+    if (qs.length === 0) {
+      return obj;
+    }
+
+    let params = qs.replace(/\+/g,' ').split('&');
+    for (x of params) {
+         let idx = x.indexOf("=");
+         if (idx >= 0) {
+            kstr = x.substring(0, idx);
+            vstr = x.substring(idx + 1);
+        } else {
+            kstr = x;
+            vstr = '';
+        }
+
+        k = decodeURIComponent(kstr);
+        v = decodeURIComponent(vstr);
+
+        obj[k] = v;
+    }
+    return obj;
+};
+
+// read the session id from the query string
+const params = parseQs(window.location.search.substring(1));
+document.getElementById("field-session_id").value = params["session_id"];
+
 let inputField = document.getElementById("field-username");
 let inputForm = document.getElementById("form");
-let submitButton = document.getElementById("submit");
+let submitButton = document.getElementById("button-submit");
 let message = document.getElementById("message");
 
 // Remove input field placeholder if the text field is not empty
@@ -26,10 +55,7 @@ let onResponse = function(response, success) {
   showMessage(response);
 
   if(success) {
-    // Hide input field and submit button
-    form.classList.add("hidden");
-
-    // Redirect after a sec
+    inputForm.submit();
     return;
   }
 
@@ -69,7 +95,6 @@ let submitUsername = function(username) {
       onResponse("Success. Please wait a moment for your browser to redirect.", true);
     }
   }, 750);
-  dummyBool = !dummyBool;
 }
 
 let clickSubmit = function() {
@@ -86,11 +111,12 @@ let clickSubmit = function() {
 submitButton.onclick = clickSubmit;
 
 // Listen for events on inputField
-inputField.addEventListener('keyup', function(event) {
+inputField.addEventListener('keypress', function(event) {
   // Listen for Enter on input field
   if(event.which === 13) {
+    event.preventDefault();
     clickSubmit();
-    return;
+    return true;
   }
   switchClass(inputField);
 });

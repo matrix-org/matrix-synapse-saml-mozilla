@@ -1,4 +1,4 @@
-# Synapse Mozilla SAML MXID Mapper 
+# Synapse Mozilla SAML MXID Mapper
 
 Custom SAML auth response -> MXID mapping algorithm used during the Mozilla
 Matrix trial run.
@@ -38,7 +38,7 @@ listeners:
 
     additional_resources:
       "/_matrix/saml2/pick_username":
-        module: "matrix_synapse_saml_mozilla.PickUsernameHandler"
+        module: "matrix_synapse_saml_mozilla.pick_username_resource"
         config: {}
 ```
 

@@ -6,13 +6,14 @@
   </head>
   <body>
     <div class="card">
-      <div class="form__input" id="form">
+      <form method="post" class="form__input" id="form" action="submit">
+        <input type="hidden" name="session_id" id="field-session_id">
         <input type="text" name="username" id="field-username" autofocus="">
         <label for="field-username">
           <span><span aria-hidden="true">Please pick your </span>username</span>
         </label>
-        <input type="submit" class="button button--full-width" id="submit" value="Submit">
-      </div>
+        <input type="button" class="button button--full-width" id="button-submit" value="Submit">
+      </form>
       <div role=alert class="tooltip hidden" id="message"></div>
       <script src="script.js"></script>
     </div>
