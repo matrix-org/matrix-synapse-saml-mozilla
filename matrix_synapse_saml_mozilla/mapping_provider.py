@@ -28,6 +28,7 @@ from matrix_synapse_saml_mozilla._sessions import (
     UsernameMappingSession,
     username_mapping_sessions,
     expire_old_sessions,
+    SESSION_COOKIE_NAME,
 )
 
 logger = logging.getLogger(__name__)
@@ -94,10 +95,16 @@ class SamlMappingProvider(object):
         logger.info("Recorded registration session id %s", session_id)
 
         # Redirect to the username picker
-        raise RedirectException(
-            b"/_matrix/saml2/pick_username/?session_id=%s"
-            % (session_id.encode("ascii"),)
+        e = RedirectException(b"/_matrix/saml2/pick_username/")
+        e.cookies.append(
+            b"%s=%s; Path=/; Max-Age=%i"
+            % (
+                SESSION_COOKIE_NAME,
+                session_id.encode("ascii"),
+                (MAPPING_SESSION_VALIDITY_PERIOD_MS / 1000) + 60,
+            )
         )
+        raise e
 
     @staticmethod
     def parse_config(config: dict) -> SamlConfig:

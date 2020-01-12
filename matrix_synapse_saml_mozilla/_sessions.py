@@ -12,11 +12,16 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
+import logging
 from typing import Optional
 
 import attr
 import time
+
+
+SESSION_COOKIE_NAME = b"username_mapping_session"
+
+logger = logging.getLogger(__name__)
 
 
 @attr.s
@@ -46,10 +51,11 @@ def expire_old_sessions(gettime=time.time):
     now = int(gettime() * 1000)
 
     for session_id, session in username_mapping_sessions.items():
-        if session.expiry_time_ms > now:
+        if session.expiry_time_ms <= now:
             to_expire.append(session_id)
 
     for session_id in to_expire:
+        logger.info("Expiring mapping session %s", session_id)
         del username_mapping_sessions[session_id]
 
 
