@@ -34,25 +34,22 @@ def exec_file(path_segments, name):
     the constant and executing it."""
     result = {}
     code = read_file(path_segments)
-    lines = [line for line in code.split('\n') if line.startswith(name)]
+    lines = [line for line in code.split("\n") if line.startswith(name)]
     exec("\n".join(lines), result)
     return result[name]
 
 
 setup(
     name="matrix-synapse-saml-mozilla",
-    version=exec_file(("matrix_synapse_saml_mozilla.py",), "__version__"),
+    version=exec_file(("matrix_synapse_saml_mozilla/__init__.py",), "__version__"),
     py_modules=["matrix-synapse-saml-mozilla"],
     description="An Mozilla-flavoured SAML MXID mapper for Synapse",
-    install_requires=[
-        "attr>=0.3.1",
-        "pysaml2>=4.5.0",
-    ],
+    install_requires=["attr>=0.3.1", "pysaml2>=4.5.0"],
     long_description=read_file(("README.md",)),
     long_description_content_type="text/markdown",
     classifiers=[
-        'Development Status :: 4 - Beta',
-        'License :: OSI Approved :: Apache Software License',
-        'Programming Language :: Python :: 3',
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: Apache Software License",
+        "Programming Language :: Python :: 3",
     ],
 )

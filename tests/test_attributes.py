@@ -15,102 +15,48 @@
 
 import logging
 import unittest
-from typing import Optional
+
+from synapse.api.errors import RedirectException
+
+from matrix_synapse_saml_mozilla._sessions import username_mapping_sessions
 
 from . import create_mapping_provider
 
 logging.basicConfig()
 
 
-def _make_test_saml_response(
-    provider_config: dict,
-    source_attribute_value: str,
-    display_name: Optional[str] = None
-):
-    """Create a fake object based off of saml2.response.AuthnResponse
+class FakeResponse:
+    def __init__(self, source_uid, display_name):
+        self.ava = {
+            "uid": [source_uid],
+        }
 
-    Args:
-        provider_config: The config dictionary used when creating the provider object
-        source_attribute_value: The desired value that the mapping provider will
-            pull out of the response object to turn into a Matrix UserID.
-        display_name: The desired displayname that the mapping provider will pull
-            out of the response object to turn into a Matrix user displayname.
-
-    Returns:
-        An object masquerading as a saml2.response.AuthnResponse object
-    """
-
-    class FakeResponse(object):
-
-        def __init__(self):
-            self.ava = {
-                provider_config["mxid_source_attribute"]: [source_attribute_value],
-            }
-
-            if display_name:
-                self.ava["displayName"] = [display_name]
-
-    return FakeResponse()
+        if display_name:
+            self.ava["displayName"] = [display_name]
 
 
 class SamlUserAttributeTestCase(unittest.TestCase):
-
-    def _attribute_test(
-        self,
-        input_uid: str,
-        input_displayname: Optional[str],
-        output_localpart: str,
-        output_displayname: Optional[str],
-    ):
-        """Creates a dummy response, feeds it to the provider and checks the output
-
-        Args:
-            input_uid: The value of the mxid_source_attribute that the provider will
-                base the generated localpart off of.
-            input_displayname: The saml auth response displayName value that the
-                provider will generate a Matrix user displayname from.
-            output_localpart: The expected mxid localpart.
-            output_displayname: The expected matrix displayname.
-
+    def test_redirect(self):
+        """Creates a dummy response, feeds it to the provider and checks that it
+        redirects to the username picker.
         """
         provider, config = create_mapping_provider()
-        response = _make_test_saml_response(config, input_uid, input_displayname)
+        response = FakeResponse(123435, "Jonny")
 
-        attribute_dict = provider.saml_response_to_user_attributes(response)
-        self.assertEqual(attribute_dict["mxid_localpart"], output_localpart)
-        self.assertEqual(attribute_dict["displayname"], output_displayname)
+        # we expect this to redirect to the username picker
+        with self.assertRaises(RedirectException) as cm:
+            provider.saml_response_to_user_attributes(response, 0, "http://client/")
+        loc = cm.exception.location
 
-    def test_normal_user(self):
-        self._attribute_test("john*doe2000#@example.com", None, "john.doe2000", None)
+        (base, query) = loc.split(b"?", 1)
+        self.assertEqual(base, b"/_matrix/saml2/pick_username/")
+        self.assertEqual(query[:11], b"session_id=")
+        session_id = query[11:].decode("ascii")
 
-    def test_normal_user_displayname(self):
-        self._attribute_test(
-            "john*doe2000#@example.com", "Jonny", "john.doe2000", "Jonny"
+        self.assertIn(
+            session_id, username_mapping_sessions, "session id not found in map"
         )
-
-    def test_multiple_adjacent_symbols(self):
-        self._attribute_test("bob%^$&#!bobby@example.com", None, "bob.bobby", None)
-
-    def test_username_does_not_end_with_dot(self):
-        """This is allowed in mxid syntax, but is not aesthetically pleasing"""
-        self._attribute_test("bob.bobby$@example.com", None, "bob.bobby", None)
-
-    def test_username_no_email(self):
-        self._attribute_test("bob.bobby", None, "bob.bobby", None)
-
-    def test_username_starting_with_underscore(self):
-        self._attribute_test(
-            "_twilight (sparkle)@somewhere.com", None, "twilight.sparkle", None
-        )
-
-    def test_existing_user(self):
-        provider, config = create_mapping_provider()
-        response = _make_test_saml_response(config, "wibble%@wobble.com", None)
-
-        attribute_dict = provider.saml_response_to_user_attributes(response)
-
-        # Simulate a failure on the first attempt
-        attribute_dict = provider.saml_response_to_user_attributes(response, failures=1)
-
-        self.assertEqual(attribute_dict["mxid_localpart"], "wibble1")
-        self.assertEqual(attribute_dict["displayname"], None)
+        session = username_mapping_sessions[session_id]
+        self.assertEqual(session.remote_user_id, 123435)
+        self.assertEqual(session.displayname, "Jonny")
+        self.assertEqual(session.client_redirect_url, "http://client/")

@@ -17,3 +17,5 @@ from matrix_synapse_saml_mozilla.mapping_provider import SamlMappingProvider
 from matrix_synapse_saml_mozilla.username_picker import pick_username_resource
 
 __version__ = "0.0.1"
+
+__all__ = ["SamlMappingProvider", "pick_username_resource"]
