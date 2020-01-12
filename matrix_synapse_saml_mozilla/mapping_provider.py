@@ -97,12 +97,7 @@ class SamlMappingProvider(object):
         # Redirect to the username picker
         e = RedirectException(b"/_matrix/saml2/pick_username/")
         e.cookies.append(
-            b"%s=%s; Path=/; Max-Age=%i"
-            % (
-                SESSION_COOKIE_NAME,
-                session_id.encode("ascii"),
-                (MAPPING_SESSION_VALIDITY_PERIOD_MS / 1000) + 60,
-            )
+            b"%s=%s; path=/" % (SESSION_COOKIE_NAME, session_id.encode("ascii"),)
         )
         raise e
 

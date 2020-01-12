@@ -177,6 +177,14 @@ class SubmitResource(AsyncResource):
         redirect_url = _add_login_token_to_redirect_url(
             session.client_redirect_url, login_token
         )
+
+        # delete the cookie
+        request.addCookie(
+            SESSION_COOKIE_NAME,
+            b"",
+            expires=b"Thu, 01 Jan 1970 00:00:00 GMT",
+            path=b"/",
+        )
         request.redirect(redirect_url)
         request.finish()
 
