@@ -1,0 +1,65 @@
+
+title Mozilla matrix login flow
+
+participant Riot
+participant "(Embedded) Browser" as B
+participant "Synapse" as HS
+participant "SAML2 IdP" as IdP
+
+activate Riot
+
+Riot->HS:""GET /login
+activate HS
+Riot<--HS:"""type":"m.login.sso"
+deactivate HS
+
+create B
+Riot->B:
+activate B
+B->HS:""GET /login/sso/redirect\n--?redirectUrl=<clienturl>--""
+activate HS
+HS->HS:Generate SAML request
+B<--HS:302 to IdP
+deactivate HS
+
+
+B->IdP: ""GET https://auth.mozilla.auth0.com/samlp/...\n--?SAMLRequest=<SAML request>
+activate IdP
+B<--IdP: 200 login form
+deactivate IdP
+B->IdP: submit login form with auth credentials
+activate IdP
+IdP-->B:200: auto-submitting HTML form including SAML Response
+deactivate IdP
+
+B->HS:""POST /_matrix/saml2/authn_response\n--SAMLResponse=<response>
+activate HS
+HS->HS:Check if known user
+B<--HS:302 to username picker\n--including ""username_mapping_session"" cookie
+deactivate HS
+
+B->HS:""GET /_matrix/saml2/pick_username/
+activate HS
+B<--HS: 200 with form page
+deactivate HS
+
+B->HS:""GET /_matrix/saml2/pick_username/check\n--?username=<username>
+activate HS
+B<--HS:200 ""{"available": true/false}""\n--or 200 ""{"error": "..."}""
+deactivate HS
+
+B->HS:""POST /_matrix/saml2/pick_username/submit\n--username=<username>
+activate HS
+B<--HS:302 to original clienturl with loginToken
+deactivate HS
+Riot<-B:
+deactivate B
+
+destroysilent B
+
+Riot->HS: ""POST /login\n--{"type": "m.login.token", "token": "<token>"}
+activate HS
+Riot<--HS:""access token"" etc
+deactivate HS
+
+

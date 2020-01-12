@@ -1,7 +1,7 @@
 # Synapse Mozilla SAML MXID Mapper
 
-Custom SAML auth response -> MXID mapping algorithm used during the Mozilla
-Matrix trial run.
+A Synapse plugin module which allows users to choose their username when they
+first log in.
 
 ## Installation
 
@@ -10,8 +10,6 @@ This plugin can be installed via [PyPi](https://pypi.org):
 ```
 pip install matrix-synapse-saml-mozilla
 ```
-
-## Usage
 
 ### Config
 
@@ -45,6 +43,12 @@ Synapse allows SAML mapping providers to specify custom configuration through th
 `saml2_config.user_mapping_provider.config` option.
 
 There are no options currently supported by this provider.
+
+## Implementation notes
+
+The login flow looks something like this:
+
+![login flow](doc/login_flow.svg)
 
 ## Development and Testing
 
