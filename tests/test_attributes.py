@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import logging
+import re
 import time
 import unittest
 
@@ -47,13 +48,15 @@ class SamlUserAttributeTestCase(unittest.TestCase):
         # we expect this to redirect to the username picker
         with self.assertRaises(RedirectException) as cm:
             provider.saml_response_to_user_attributes(response, 0, "http://client/")
-        loc = cm.exception.location
+        self.assertEqual(cm.exception.location, b"/_matrix/saml2/pick_username/")
 
-        (base, query) = loc.split(b"?", 1)
-        self.assertEqual(base, b"/_matrix/saml2/pick_username/")
-        self.assertEqual(query[:11], b"session_id=")
-        session_id = query[11:].decode("ascii")
+        cookieheader = cm.exception.cookies[0]
+        regex = re.compile(b"^username_mapping_session=([a-zA-Z]+);")
+        m = regex.search(cookieheader)
+        if not m:
+            self.fail("cookie header %s does not match %s" % (cookieheader, regex))
 
+        session_id = m.group(1).decode("ascii")
         self.assertIn(
             session_id, username_mapping_sessions, "session id not found in map"
         )
