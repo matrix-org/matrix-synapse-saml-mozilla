@@ -21,8 +21,6 @@ Add the following in your Synapse config:
    saml2_config:
      user_mapping_provider:
        module: "matrix_synapse_saml_mozilla.SamlMappingProvider"
-       config:
-         mxid_source_attribute: "uid"
 ```
 
 Also, under the HTTP client `listener`, configure an `additional_resource` as per
@@ -39,7 +37,6 @@ listeners:
     additional_resources:
       "/_matrix/saml2/pick_username":
         module: "matrix_synapse_saml_mozilla.pick_username_resource"
-        config: {}
 ```
 
 ### Configuration Options
@@ -47,11 +44,7 @@ listeners:
 Synapse allows SAML mapping providers to specify custom configuration through the
 `saml2_config.user_mapping_provider.config` option.
 
-The options supported by this provider are currently:
-
-* `mxid_source_attribute` - The SAML attribute (after mapping via the
-                            attribute maps) to use to derive the Matrix
-                            ID from. 'uid' by default.
+There are no options currently supported by this provider.
 
 ## Development and Testing
 
@@ -59,7 +52,7 @@ This repository uses `tox` to run linting and tests.
 
 ### Linting
 
-Code is linted with the `flake8` tool. Run `tox -e pep8` to check for linting
+Code is linted with the `flake8` tool. Run `tox -e lint` to check for linting
 errors in the codebase.
 
 ### Tests
