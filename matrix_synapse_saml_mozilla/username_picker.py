@@ -25,7 +25,10 @@ import synapse.module_api
 from synapse.module_api import run_in_background
 from synapse.module_api.errors import SynapseError
 
-from matrix_synapse_saml_mozilla._sessions import username_mapping_sessions
+from matrix_synapse_saml_mozilla._sessions import (
+    get_mapping_session,
+    username_mapping_sessions,
+)
 
 """
 This file implements the "username picker" resource, which is mapped as an
@@ -105,7 +108,7 @@ class SubmitResource(Resource):
             return
 
         session_id = request.args[b"session_id"][0].decode("ascii", errors="replace")
-        session = username_mapping_sessions.get(session_id, None)
+        session = get_mapping_session(session_id)
         if not session:
             logger.info("Session ID %s not found", session_id)
             _return_html_error(403, "Unknown session", request)

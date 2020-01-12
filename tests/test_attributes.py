@@ -14,6 +14,7 @@
 # limitations under the License.
 
 import logging
+import time
 import unittest
 
 from synapse.api.errors import RedirectException
@@ -60,3 +61,8 @@ class SamlUserAttributeTestCase(unittest.TestCase):
         self.assertEqual(session.remote_user_id, 123435)
         self.assertEqual(session.displayname, "Jonny")
         self.assertEqual(session.client_redirect_url, "http://client/")
+
+        # the expiry time should be about 15 minutes away
+        expected_expiry = (time.time() + 15 * 60) * 1000
+        self.assertGreaterEqual(session.expiry_time_ms, expected_expiry - 1000)
+        self.assertLessEqual(session.expiry_time_ms, expected_expiry + 1000)

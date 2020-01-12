@@ -16,6 +16,7 @@
 from typing import Optional
 
 import attr
+import time
 
 
 @attr.s
@@ -31,9 +32,28 @@ class UsernameMappingSession:
     # where to redirect the client back to
     client_redirect_url = attr.ib(type=str)
 
-    # time the session was created, in milliseconds
-    creation_time = attr.ib(type=int)
+    # expiry time for the session, in milliseconds
+    expiry_time_ms = attr.ib(type=int)
 
 
 # a map from session id to session data
 username_mapping_sessions = {}  # type: dict[str, UsernameMappingSession]
+
+
+def expire_old_sessions(gettime=time.time):
+    """Delete any sessions which have passed their expiry_time"""
+    to_expire = []
+    now = int(gettime() * 1000)
+
+    for session_id, session in username_mapping_sessions.items():
+        if session.expiry_time_ms > now:
+            to_expire.append(session_id)
+
+    for session_id in to_expire:
+        del username_mapping_sessions[session_id]
+
+
+def get_mapping_session(session_id: str) -> Optional[UsernameMappingSession]:
+    """Look up the given session id, first expiring any old sessions"""
+    expire_old_sessions()
+    return username_mapping_sessions.get(session_id, None)

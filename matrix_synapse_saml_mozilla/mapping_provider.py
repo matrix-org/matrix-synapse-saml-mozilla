@@ -27,9 +27,13 @@ from synapse.module_api.errors import RedirectException
 from matrix_synapse_saml_mozilla._sessions import (
     UsernameMappingSession,
     username_mapping_sessions,
+    expire_old_sessions,
 )
 
 logger = logging.getLogger(__name__)
+
+
+MAPPING_SESSION_VALIDITY_PERIOD_MS = 15 * 60 * 1000
 
 
 @attr.s
@@ -71,6 +75,8 @@ class SamlMappingProvider(object):
         remote_user_id = saml_response.ava["uid"][0]
         displayname = saml_response.ava.get("displayName", [None])[0]
 
+        expire_old_sessions()
+
         # make up a cryptorandom session id
         session_id = "".join(
             self._random.choice(string.ascii_letters) for _ in range(16)
@@ -81,7 +87,7 @@ class SamlMappingProvider(object):
             remote_user_id=remote_user_id,
             displayname=displayname,
             client_redirect_url=client_redirect_url,
-            creation_time=now,
+            expiry_time_ms=now + MAPPING_SESSION_VALIDITY_PERIOD_MS,
         )
 
         username_mapping_sessions[session_id] = session
