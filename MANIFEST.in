@@ -1,6 +1,10 @@
 include *.in
-include *.py
 include LICENSE
 include tox.ini
 include requirements.txt
+
+prune doc
+
+recursive-include matrix_synapse_saml_mozilla *.py
+graft matrix_synapse_saml_mozilla/res
 recursive-include tests *.py
