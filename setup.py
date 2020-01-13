@@ -43,6 +43,7 @@ setup(
     name="matrix-synapse-saml-mozilla",
     version=exec_file(("matrix_synapse_saml_mozilla/__init__.py",), "__version__"),
     packages=["matrix_synapse_saml_mozilla"],
+    include_package_data=True,
     description="An Mozilla-flavoured SAML MXID mapper for Synapse",
     install_requires=["attr>=0.3.1", "pysaml2>=4.5.0"],
     long_description=read_file(("README.md",)),
