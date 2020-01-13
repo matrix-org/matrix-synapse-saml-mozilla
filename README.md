@@ -48,7 +48,7 @@ There are no options currently supported by this provider.
 
 The login flow looks something like this:
 
-![login flow](doc/login_flow.svg)
+![login flow](https://raw.githubusercontent.com/matrix-org/matrix-synapse-saml-mozilla/master/doc/login_flow.svg?sanitize=true)
 
 ## Development and Testing
 
