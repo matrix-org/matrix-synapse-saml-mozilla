@@ -60,7 +60,11 @@ class SamlMappingProvider(object):
     ):
         """Extracts the remote user id from the SAML response"""
         if self._config.use_name_id_for_remote_uid:
-            return saml_response.name_id
+            name_id = saml_response.name_id
+            if not name_id:
+                logger.warning("SAML2 response lacks a NameID field")
+                raise CodeMessageException(400, "'NameID' not in SAML2 response")
+            return name_id.text
         else:
             try:
                 return saml_response.ava["uid"][0]
