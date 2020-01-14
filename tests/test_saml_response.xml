@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<samlp:Response xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol" ID="_a3ed8d116bec81df2e7d" InResponseTo="id-cV9WyAw0pehGKEkCh" Version="2.0" IssueInstant="2020-01-14T13:35:35.446" Destination="https://host/_matrix/saml2/authn_response">
+  <ns0:Assertion xmlns:ns0="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="1234" IssueInstant="2020-01-14T13:35:35.446Z" Version="2.0">
+    <ns0:Issuer>urn:auth.issuer.com</ns0:Issuer>
+    <ns0:Subject>
+      <ns0:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:emailaddress">test@domain.com</ns0:NameID>
+      <ns0:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+        <ns0:SubjectConfirmationData InResponseTo="id-PKZGwsurIx7JGnIEI" NotOnOrAfter="2020-01-15T13:35:35.446Z" Recipient="https://host/_matrix/saml2/authn_response"/>
+      </ns0:SubjectConfirmation>
+    </ns0:Subject>
+    <ns0:Conditions NotBefore="2020-01-14T13:35:35.446Z" NotOnOrAfter="2020-01-15T13:35:35.446Z">
+      <ns0:AudienceRestriction>
+        <ns0:Audience>https://host/_matrix/saml2/metadata.xml</ns0:Audience>
+      </ns0:AudienceRestriction>
+    </ns0:Conditions>
+    <ns0:AuthnStatement AuthnInstant="2020-01-14T13:35:35.446Z" SessionIndex="_session">
+      <ns0:AuthnContext>
+        <ns0:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified</ns0:AuthnContextClassRef>
+      </ns0:AuthnContext>
+    </ns0:AuthnStatement>
+    <ns0:AttributeStatement>
+      <ns0:Attribute Name="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ad|domain-LDAP|testuser</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">testuser@domain.com</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="displayName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Jan de
+                 Mooij</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="givenname" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Jan</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="surname" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">de
+                 Mooij</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.xmlsoap.org/claims/Group" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">everyone</ns0:AttributeValue>
+
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">group1</ns0:AttributeValue>
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">group2</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">testuser@domain.com</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/identities/default/provider" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">ad</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/identities/default/connection" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">domain-LDAP</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/identities/default/isSocial" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/nickname" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Jan de
+                 Mooij</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/emails" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">testuser@domain.com</ns0:AttributeValue>
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">other@domain.com</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/dn" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">mail=testuser@domain.com,o=com,dc=domain</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/organizationUnits" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">mail=testuser@domain.com,o=com,dc=domain</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/email_aliases" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">other@domain.com</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/_HRData" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:anyType">[object Object]</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/picture" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">http://avatar_url</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/ldap_groups" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">group1</ns0:AttributeValue>
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">group2</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/aai" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">2FA</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/aal" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">MEDIUM</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/user_is_new" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/email_verified" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">true</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/clientID" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">clientID</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/updated_at" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:anyType">Tue Jan 14 2020 13:35:34 GMT+0000 (Coordinated Universal Time)</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/created_at" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:anyType">Fri Jun 16 2017 13:24:53 GMT+0000 (Coordinated Universal Time)</ns0:AttributeValue>
+      </ns0:Attribute>
+      <ns0:Attribute Name="http://schemas.auth0.com/multifactor" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">duo</ns0:AttributeValue>
+      </ns0:Attribute>
+    </ns0:AttributeStatement>
+  </ns0:Assertion>
+</samlp:Response>

@@ -18,6 +18,11 @@ import re
 import time
 import unittest
 
+import pkg_resources
+from saml2.config import SPConfig
+from saml2.response import AuthnResponse
+from saml2.sigver import security_context
+
 from synapse.api.errors import RedirectException
 
 from matrix_synapse_saml_mozilla._sessions import username_mapping_sessions
@@ -37,12 +42,40 @@ class FakeResponse:
             self.ava["displayName"] = [display_name]
 
 
+def _load_test_response() -> AuthnResponse:
+    response_xml = pkg_resources.resource_string(
+        "tests", "test_saml_response.xml"
+    ).decode("utf-8")
+
+    config = SPConfig()
+    config.load({})
+    assert config.attribute_converters is not None
+
+    response = AuthnResponse(
+        sec_context=security_context(config),
+        attribute_converters=config.attribute_converters,
+        entity_id="https://host/_matrix/saml2/metadata.xml",
+        allow_unsolicited=True,
+        # tell it not to check the `destination`
+        asynchop=False,
+    )
+    response.loads(response_xml, decode=False, origxml=response_xml)
+    response.verify()
+    return response
+
+
 class SamlUserAttributeTestCase(unittest.TestCase):
+    def test_get_remote_user_id_from_name_id(self):
+        resp = _load_test_response()
+        provider = create_mapping_provider({"use_name_id_for_remote_uid": True,})
+        remote_user_id = provider.get_remote_user_id(resp, "",)
+        self.assertEqual(remote_user_id, "test@domain.com")
+
     def test_redirect(self):
         """Creates a dummy response, feeds it to the provider and checks that it
         redirects to the username picker.
         """
-        provider, config = create_mapping_provider()
+        provider = create_mapping_provider()
         response = FakeResponse(123435, "Jonny")
 
         # we expect this to redirect to the username picker
