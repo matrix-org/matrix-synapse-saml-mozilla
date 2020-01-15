@@ -23,10 +23,8 @@ from saml2.config import SPConfig
 from saml2.response import AuthnResponse
 from saml2.sigver import security_context
 
-from synapse.api.errors import RedirectException
-
 from matrix_synapse_saml_mozilla._sessions import username_mapping_sessions
-
+from synapse.api.errors import RedirectException
 from . import create_mapping_provider
 
 logging.basicConfig()
