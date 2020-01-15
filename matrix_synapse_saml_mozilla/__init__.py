@@ -13,9 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from pkg_resources import get_distribution, DistributionNotFound
+
 from matrix_synapse_saml_mozilla.mapping_provider import SamlMappingProvider
 from matrix_synapse_saml_mozilla.username_picker import pick_username_resource
 
-__version__ = "0.1.dev5"
+try:
+    __version__ = get_distribution(__name__).version
+except DistributionNotFound:
+    # package is not installed
+    pass
 
 __all__ = ["SamlMappingProvider", "pick_username_resource"]

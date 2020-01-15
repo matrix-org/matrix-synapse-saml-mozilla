@@ -41,10 +41,11 @@ def exec_file(path_segments, name):
 
 setup(
     name="matrix-synapse-saml-mozilla",
-    version=exec_file(("matrix_synapse_saml_mozilla/__init__.py",), "__version__"),
     packages=["matrix_synapse_saml_mozilla"],
     include_package_data=True,
     description="An Mozilla-flavoured SAML MXID mapper for Synapse",
+    use_scm_version=True,
+    setup_requires=["setuptools_scm"],
     install_requires=["attr>=0.3.1", "pysaml2>=4.5.0"],
     long_description=read_file(("README.md",)),
     long_description_content_type="text/markdown",
