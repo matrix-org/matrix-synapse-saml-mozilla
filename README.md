@@ -42,7 +42,15 @@ listeners:
 Synapse allows SAML mapping providers to specify custom configuration through the
 `saml2_config.user_mapping_provider.config` option.
 
-There are no options currently supported by this provider.
+Currently the following options are supported:
+
+ * `use_name_id_for_remote_uid`: if set to `False`, we will use the SAML
+   attribute mapped to `uid` to identify the remote user instead of the `NameID`
+   from the assertion. `True` by default.
+
+ * `domain_block_file`: should point a file containing a list of domains (one
+   per line); users who have an email address on any of these domains will be
+   blocked from registration.
 
 ## Implementation notes
 
@@ -63,3 +71,11 @@ errors in the codebase.
 
 This repository uses `unittest` to run the tests located in the `tests`
 directory. They can be ran with `tox -e tests`.
+
+### Making a release
+
+```
+git tag vX.Y
+python3 setup.py sdist
+twine upload dist/matrix-synapse-saml-mozilla-X.Y.tar.gz
+```
