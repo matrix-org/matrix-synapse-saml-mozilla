@@ -1,6 +1,9 @@
+import logging
 from typing import Optional
 
 from matrix_synapse_saml_mozilla import SamlMappingProvider
+
+logging.basicConfig()
 
 
 def create_mapping_provider(config_dict: Optional[dict] = None) -> SamlMappingProvider:

@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import logging
 import re
 import time
 import unittest
@@ -28,8 +27,6 @@ from synapse.api.errors import RedirectException
 from matrix_synapse_saml_mozilla._sessions import username_mapping_sessions
 
 from . import create_mapping_provider
-
-logging.basicConfig()
 
 
 class FakeResponse:
@@ -58,6 +55,8 @@ def _load_test_response() -> AuthnResponse:
         allow_unsolicited=True,
         # tell it not to check the `destination`
         asynchop=False,
+        # tell it not to check the issue time
+        timeslack=20 * 365 * 24 * 3600,
     )
     response.loads(response_xml, decode=False, origxml=response_xml)
     response.verify()
