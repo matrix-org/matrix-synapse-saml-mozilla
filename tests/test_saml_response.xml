@@ -26,15 +26,13 @@
         <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">testuser@domain.com</ns0:AttributeValue>
       </ns0:Attribute>
       <ns0:Attribute Name="displayName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Jan de
-                 Mooij</ns0:AttributeValue>
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Test Testuser</ns0:AttributeValue>
       </ns0:Attribute>
       <ns0:Attribute Name="givenname" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Jan</ns0:AttributeValue>
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Test</ns0:AttributeValue>
       </ns0:Attribute>
       <ns0:Attribute Name="surname" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
-        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">de
-                 Mooij</ns0:AttributeValue>
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Testuser</ns0:AttributeValue>
       </ns0:Attribute>
       <ns0:Attribute Name="http://schemas.xmlsoap.org/claims/Group" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
         <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">everyone</ns0:AttributeValue>
@@ -55,12 +53,11 @@
         <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:boolean">false</ns0:AttributeValue>
       </ns0:Attribute>
       <ns0:Attribute Name="http://schemas.auth0.com/nickname" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
-        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Jan de
-                 Mooij</ns0:AttributeValue>
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Test Testuser</ns0:AttributeValue>
       </ns0:Attribute>
       <ns0:Attribute Name="http://schemas.auth0.com/emails" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
         <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">testuser@domain.com</ns0:AttributeValue>
-        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">other@domain.com</ns0:AttributeValue>
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">other@otherdomain.com</ns0:AttributeValue>
       </ns0:Attribute>
       <ns0:Attribute Name="http://schemas.auth0.com/dn" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
         <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">mail=testuser@domain.com,o=com,dc=domain</ns0:AttributeValue>
@@ -69,7 +66,7 @@
         <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">mail=testuser@domain.com,o=com,dc=domain</ns0:AttributeValue>
       </ns0:Attribute>
       <ns0:Attribute Name="http://schemas.auth0.com/email_aliases" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
-        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">other@domain.com</ns0:AttributeValue>
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">other@otherdomain.com</ns0:AttributeValue>
       </ns0:Attribute>
       <ns0:Attribute Name="http://schemas.auth0.com/_HRData" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:uri">
         <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:anyType">[object Object]</ns0:AttributeValue>
