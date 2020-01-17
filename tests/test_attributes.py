@@ -23,8 +23,10 @@ from saml2.config import SPConfig
 from saml2.response import AuthnResponse
 from saml2.sigver import security_context
 
-from matrix_synapse_saml_mozilla._sessions import username_mapping_sessions
 from synapse.api.errors import RedirectException
+
+from matrix_synapse_saml_mozilla._sessions import username_mapping_sessions
+
 from . import create_mapping_provider
 
 logging.basicConfig()
@@ -65,7 +67,7 @@ def _load_test_response() -> AuthnResponse:
 class SamlUserAttributeTestCase(unittest.TestCase):
     def test_get_remote_user_id_from_name_id(self):
         resp = _load_test_response()
-        provider = create_mapping_provider({"use_name_id_for_remote_uid": True,})
+        provider = create_mapping_provider({"use_name_id_for_remote_uid": True})
         remote_user_id = provider.get_remote_user_id(resp, "",)
         self.assertEqual(remote_user_id, "test@domain.com")
 

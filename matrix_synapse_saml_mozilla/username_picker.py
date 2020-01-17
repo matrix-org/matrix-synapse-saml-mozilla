@@ -28,9 +28,9 @@ from synapse.module_api import run_in_background
 from synapse.module_api.errors import SynapseError
 
 from matrix_synapse_saml_mozilla._sessions import (
+    SESSION_COOKIE_NAME,
     get_mapping_session,
     username_mapping_sessions,
-    SESSION_COOKIE_NAME,
 )
 
 """

@@ -13,11 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 import logging
+import time
 from typing import Optional
 
 import attr
-import time
-
 
 SESSION_COOKIE_NAME = b"username_mapping_session"
 

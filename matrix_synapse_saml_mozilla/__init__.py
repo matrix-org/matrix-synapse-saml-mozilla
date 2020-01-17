@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pkg_resources import get_distribution, DistributionNotFound
+from pkg_resources import DistributionNotFound, get_distribution
 
 from matrix_synapse_saml_mozilla.mapping_provider import SamlMappingProvider
 from matrix_synapse_saml_mozilla.username_picker import pick_username_resource

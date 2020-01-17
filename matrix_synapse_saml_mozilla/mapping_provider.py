@@ -26,10 +26,10 @@ from synapse.api.errors import CodeMessageException
 from synapse.module_api.errors import RedirectException
 
 from matrix_synapse_saml_mozilla._sessions import (
-    UsernameMappingSession,
-    username_mapping_sessions,
-    expire_old_sessions,
     SESSION_COOKIE_NAME,
+    UsernameMappingSession,
+    expire_old_sessions,
+    username_mapping_sessions,
 )
 
 logger = logging.getLogger(__name__)
