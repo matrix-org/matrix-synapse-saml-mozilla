@@ -20,7 +20,7 @@ import unittest
 import pkg_resources
 from saml2.config import SPConfig
 from saml2.response import AuthnResponse
-from saml2.sigver import security_context
+from saml2.sigver import CryptoBackend, SecurityContext
 
 from synapse.api.errors import CodeMessageException, RedirectException
 
@@ -41,6 +41,10 @@ class FakeResponse:
             self.ava["displayName"] = [display_name]
 
 
+class FakeCryptoBackend(CryptoBackend):
+    pass
+
+
 def _load_test_response() -> AuthnResponse:
     response_xml = pkg_resources.resource_string(
         "tests", "test_saml_response.xml"
@@ -57,7 +61,7 @@ def _load_test_response() -> AuthnResponse:
     assert config.attribute_converters is not None
 
     response = AuthnResponse(
-        sec_context=security_context(config),
+        sec_context=SecurityContext(FakeCryptoBackend()),
         attribute_converters=config.attribute_converters,
         entity_id="https://host/_matrix/saml2/metadata.xml",
         allow_unsolicited=True,
