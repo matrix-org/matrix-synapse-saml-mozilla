@@ -56,6 +56,8 @@ class SamlMappingProvider(object):
         self._random = random.SystemRandom()
         self._config = parsed_config
 
+        logger.info("Domain block list: %s", self._config.domain_block_list)
+
     def get_remote_user_id(
         self, saml_response: saml2.response.AuthnResponse, client_redirect_url: str
     ):
@@ -167,7 +169,6 @@ class SamlMappingProvider(object):
                 raise Exception(
                     "Error reading domain block file %s: %s" % (domain_block_file, e)
                 )
-        logger.info("Domain block list: %s", parsed.domain_block_list)
 
         return parsed
 
