@@ -84,4 +84,5 @@ directory. They can be ran with `tox -e tests`.
 git tag vX.Y
 python3 setup.py sdist
 twine upload dist/matrix-synapse-saml-mozilla-X.Y.tar.gz
+git push origin vX.Y
 ```
