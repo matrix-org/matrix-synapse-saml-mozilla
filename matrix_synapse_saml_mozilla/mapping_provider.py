@@ -37,6 +37,13 @@ logger = logging.getLogger(__name__)
 
 MAPPING_SESSION_VALIDITY_PERIOD_MS = 15 * 60 * 1000
 
+# names of attributes in the `ava` property we get from pysaml2
+UID_ATTRIBUTE_NAME = (
+    "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+)
+EMAIL_ATTRIBUTE_NAME = "http://schemas.auth0.com/emails"
+DISPLAYNAME_ATTRIBUTE_NAME = "displayName"
+
 
 @attr.s
 class SamlConfig(object):
@@ -70,10 +77,14 @@ class SamlMappingProvider(object):
             return name_id.text
         else:
             try:
-                return saml_response.ava["uid"][0]
+                return saml_response.ava[UID_ATTRIBUTE_NAME][0]
             except KeyError:
-                logger.warning("SAML2 response lacks a 'uid' attribute")
-                raise CodeMessageException(400, "'uid' not in SAML2 response")
+                logger.warning(
+                    "SAML2 response lacks a '%s' attribute", UID_ATTRIBUTE_NAME
+                )
+                raise CodeMessageException(
+                    400, "'%s' not in SAML2 response" % (UID_ATTRIBUTE_NAME,)
+                )
 
     def saml_response_to_user_attributes(
         self,
@@ -96,16 +107,20 @@ class SamlMappingProvider(object):
                 * displayname (str): The displayname of the user
         """
         remote_user_id = self.get_remote_user_id(saml_response, client_redirect_url)
-        displayname = saml_response.ava.get("displayName", [None])[0]
+        displayname = saml_response.ava.get(DISPLAYNAME_ATTRIBUTE_NAME, [None])[0]
 
         expire_old_sessions()
 
         # check the user's emails against our block list
-        if "emails" not in saml_response.ava:
-            logger.warning("SAML2 response lacks an 'emails' attribute")
-            raise CodeMessageException(400, "'emails' not in SAML2 response")
+        if EMAIL_ATTRIBUTE_NAME not in saml_response.ava:
+            logger.warning(
+                "SAML2 response lacks a '%s' attribute", EMAIL_ATTRIBUTE_NAME,
+            )
+            raise CodeMessageException(
+                400, "'%s' not in SAML2 response" % (EMAIL_ATTRIBUTE_NAME,)
+            )
 
-        for email in saml_response.ava["emails"]:
+        for email in saml_response.ava[EMAIL_ATTRIBUTE_NAME]:
             parts = email.rsplit("@", 1)
             if len(parts) != 2:
                 logger.warning(
@@ -187,10 +202,10 @@ class SamlMappingProvider(object):
                 second set consists of those attributes which can be used if
                 available, but are not necessary
         """
-        required = set()
-        optional = {"uid", "emails", "displayName"}
+        required = {EMAIL_ATTRIBUTE_NAME}
+        optional = {UID_ATTRIBUTE_NAME, DISPLAYNAME_ATTRIBUTE_NAME}
 
         if not config.use_name_id_for_remote_uid:
-            required += "uid"
+            required += UID_ATTRIBUTE_NAME
 
         return required, optional
