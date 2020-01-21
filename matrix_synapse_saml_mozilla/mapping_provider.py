@@ -41,7 +41,7 @@ MAPPING_SESSION_VALIDITY_PERIOD_MS = 15 * 60 * 1000
 UID_ATTRIBUTE_NAME = (
     "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
 )
-EMAIL_ATTRIBUTE_NAME = "http://schemas.auth0.com/emails"
+EMAIL_ATTRIBUTE_NAME = "http://schemas.auth0.com/email"
 DISPLAYNAME_ATTRIBUTE_NAME = "displayName"
 
 
