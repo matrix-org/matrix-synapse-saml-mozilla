@@ -41,7 +41,7 @@ MAPPING_SESSION_VALIDITY_PERIOD_MS = 15 * 60 * 1000
 @attr.s
 class SamlConfig(object):
     use_name_id_for_remote_uid = attr.ib(type=bool, default=True)
-    domain_block_list = attr.ib(type=Set[str], default={})
+    domain_block_list = attr.ib(type=Set[str], factory=set)
 
 
 class SamlMappingProvider(object):
@@ -158,13 +158,15 @@ class SamlMappingProvider(object):
         if "use_name_id_for_remote_uid" in config:
             parsed.use_name_id_for_remote_uid = config["use_name_id_for_remote_uid"]
 
-        domain_block_file = config.get("domain_block_file")
+        parsed.domain_block_list.update(config.get("bad_domain_list", []))
+
+        domain_block_file = config.get("bad_domain_file")
         if domain_block_file:
             try:
                 with open(domain_block_file, encoding="ascii") as fh:
-                    parsed.domain_block_list = {
+                    parsed.domain_block_list.update(
                         line.strip().lower() for line in fh.readlines()
-                    }
+                    )
             except Exception as e:
                 raise Exception(
                     "Error reading domain block file %s: %s" % (domain_block_file, e)

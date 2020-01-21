@@ -48,9 +48,15 @@ Currently the following options are supported:
    attribute mapped to `uid` to identify the remote user instead of the `NameID`
    from the assertion. `True` by default.
 
- * `domain_block_file`: should point a file containing a list of domains (one
+ * `bad_domain_file`: should point a file containing a list of domains (one
    per line); users who have an email address on any of these domains will be
    blocked from registration.
+
+ * `bad_domain_list`: an alternative to `bad_domain_file` allowing the list of
+   bad domains to be specified inline in the config.
+
+   If both `bad_domain_file` and `bad_domain_list` are specified, the two lists
+   are merged.
 
 ## Implementation notes
 
