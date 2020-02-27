@@ -176,3 +176,6 @@ body {
     margin-left: .5em; }
   .tooltip:target {
     display: block; }
+
+#button-submit {
+  cursor: pointer; }
