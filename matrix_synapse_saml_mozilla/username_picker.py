@@ -171,13 +171,6 @@ class SubmitResource(AsyncResource):
 
         del username_mapping_sessions[session_id]
 
-        login_token = self._module_api.generate_short_term_login_token(
-            registered_user_id
-        )
-        redirect_url = _add_login_token_to_redirect_url(
-            session.client_redirect_url, login_token
-        )
-
         # delete the cookie
         request.addCookie(
             SESSION_COOKIE_NAME,
@@ -185,8 +178,12 @@ class SubmitResource(AsyncResource):
             expires=b"Thu, 01 Jan 1970 00:00:00 GMT",
             path=b"/",
         )
-        request.redirect(redirect_url)
-        request.finish()
+
+        self._module_api.complete_sso_login(
+            registered_user_id,
+            request,
+            session.client_redirect_url,
+        )
 
 
 class AvailabilityCheckResource(AsyncResource):
