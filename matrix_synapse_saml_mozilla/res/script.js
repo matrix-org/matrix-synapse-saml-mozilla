@@ -65,7 +65,9 @@ let submitUsername = function(username) {
     return;
   }
 
-    let check_uri = 'check?' + buildQueryString({"username": username});
+    // Since we're trying to register the username converted to lower case, check the
+    // availability with the right case.
+    let check_uri = 'check?' + buildQueryString({"username": username.toLowerCase()});
     fetch(check_uri, {
         "credentials": "include",
     }).then((response) => {
