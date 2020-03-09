@@ -36,13 +36,13 @@ let onResponse = function(response, success) {
 };
 
 // We allow upper case characters here, but then lowercase before sending to the server
-let allowedUsernameCharacters = RegExp("[^a-zA-Z0-9\\.\\_\\=\\-\\/]");
+let allowedUsernameCharacters = RegExp("[^a-z0-9\\.\\_\\=\\-\\/]");
 let usernameIsValid = function(username) {
   return !allowedUsernameCharacters.test(username);
 }
 let allowedCharactersString = "" +
-"<code>a-z</code>, " +
-"<code>0-9</code>, " +
+"lowercase letters, " +
+"digits, " +
 "<code>.</code>, " +
 "<code>_</code>, " +
 "<code>-</code>, " +
