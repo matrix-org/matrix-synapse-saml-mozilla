@@ -155,8 +155,6 @@ class SubmitResource(AsyncResource):
             _return_html_error(400, "missing username", request)
             return
         localpart = request.args[b"username"][0].decode("utf-8", errors="replace")
-        # Convert the username to lower case.
-        localpart = localpart.lower()
         logger.info("Registering username %s", localpart)
         try:
             registered_user_id = await self._module_api.register_user(
