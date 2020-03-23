@@ -126,7 +126,8 @@ body {
   transition: background-color .1s ease-in-out;
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none; }
+  appearance: none;
+  cursor: pointer; }
   .button:hover {
     background-color: #fff;
     color: #0060df;
