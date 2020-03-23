@@ -35,7 +35,6 @@ let onResponse = function(response, success) {
   submitButton.value = "Submit"
 };
 
-// We allow upper case characters here, but then lowercase before sending to the server
 let allowedUsernameCharacters = RegExp("[^a-z0-9\\.\\_\\=\\-\\/]");
 let usernameIsValid = function(username) {
   return !allowedUsernameCharacters.test(username);
