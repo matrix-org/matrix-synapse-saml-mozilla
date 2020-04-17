@@ -179,7 +179,7 @@ class SubmitResource(AsyncResource):
             path=b"/",
         )
 
-        self._module_api.complete_sso_login(
+        await self._module_api.complete_sso_login_async(
             registered_user_id,
             request,
             session.client_redirect_url,
