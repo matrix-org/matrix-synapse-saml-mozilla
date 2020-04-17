@@ -33,8 +33,8 @@ from . import create_mapping_provider
 class FakeResponse:
     def __init__(self, source_uid, display_name):
         self.ava = {
-            "uid": [source_uid],
-            "emails": [],
+            "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": [source_uid],
+            "email": [],
         }
 
         if display_name:
@@ -50,19 +50,9 @@ def _load_test_response() -> AuthnResponse:
         "tests", "test_saml_response.xml"
     ).decode("utf-8")
 
-    config = SPConfig()
-    config.load(
-        {
-            "attribute_map_dir": pkg_resources.resource_filename(
-                "matrix_synapse_saml_mozilla", "saml_maps"
-            )
-        }
-    )
-    assert config.attribute_converters is not None
-
     response = AuthnResponse(
         sec_context=SecurityContext(FakeCryptoBackend()),
-        attribute_converters=config.attribute_converters,
+        attribute_converters={},
         entity_id="https://host/_matrix/saml2/metadata.xml",
         allow_unsolicited=True,
         allow_unknown_attributes=True,

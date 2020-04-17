@@ -24,6 +24,7 @@
       </ns0:Attribute>
       <ns0:Attribute Name="email" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
         <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">testuser@domain.com</ns0:AttributeValue>
+        <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">other@otherdomain.com</ns0:AttributeValue>
       </ns0:Attribute>
       <ns0:Attribute Name="displayName" NameFormat="urn:oasis:names:tc:SAML:2.0:attrname-format:basic">
         <ns0:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xsi:type="xs:string">Test Testuser</ns0:AttributeValue>
