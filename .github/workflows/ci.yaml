@@ -1,0 +1,27 @@
+name: CI
+on:
+  push:
+    branches: main
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.7
+      - name: Install tox
+        run: pip install tox
+      - name: Linting
+        run: tox -e packaging lint
+      - name: Tests
+        run: tox -e tests
+
+
